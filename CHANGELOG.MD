@@ -1,5 +1,10 @@
 # DEV CHANGELOG
 
+## Dev Notes: Rev 0.2.2
+
+- Added border around the game canvas to indicate the boundaries of the game window.
+- Added version text to the HTML page, displaying it in the bottom right corner of the canvas.
+
 ## Dev Notes: Rev 0.2.1
 
 - Modified the layout to display the Level first and the Score to the right of it.

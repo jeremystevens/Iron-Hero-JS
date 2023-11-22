@@ -1,6 +1,11 @@
 window.onload = function() {
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
+    
+// display the version number on the title screen
+const versionNumber = "0.2.2";
+// Update the version text
+document.getElementById('version').textContent = versionNumber;
 
     // Title music
     let titleMusic = new Audio('audio/menu.wav');
@@ -213,7 +218,7 @@ function drawPlayerLives() {
     bgImage.src = "images/background.png";
     let x1 = 0;
     let x2 = canvas.width;
-    let speed = 10;
+    let speed = 17;
 
     // Game loop
     function gameLoop() {
