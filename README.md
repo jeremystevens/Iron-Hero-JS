@@ -17,7 +17,7 @@ To play the Iron Hero, follow these steps:
    ```sh
    cd iron-hero
 
-3. Run the game by executing the following command:
+3. Run the game by Opening the following file in your web browser:
     ```sh
     open index.html
   
