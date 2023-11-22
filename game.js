@@ -47,7 +47,8 @@ function drawPlayerLives() {
     let bulletImage = new Image();
     bulletImage.src = 'images/bullet_sprite.png';
 
-    let bulletSound = new Audio('audio/bullet.ogg');
+    //let bulletSound = new Audio('audio/bullet.ogg');
+    let bulletSound = new Audio('audio/blaster.mp3');
     let bulletAdjustX = 10; // Adjust the x position
     let bulletAdjustY = 19; // and the y position
 
@@ -78,13 +79,25 @@ function drawPlayerLives() {
     const font = '36px Arial';
 
     // Function to draw score and level
-    function drawGameInfo() {
+    //function drawGameInfo() {
+    //ctx.fillStyle = 'white';
+   // ctx.font = '24px Arial';
+    //ctx.fillText('Score: ' + score, canvas.width - 150, 30);
+   // ctx.fillText('Level: ' + level, canvas.width - 150, 60);
+   // drawPlayerLives();
+   // }
+   function drawGameInfo() {
     ctx.fillStyle = 'white';
     ctx.font = '24px Arial';
+    
+    // Display "Level:" text
+    ctx.fillText('Level: ' + level, canvas.width - 250, 30);
+    
+    // Display "Score:" text
     ctx.fillText('Score: ' + score, canvas.width - 150, 30);
-    ctx.fillText('Level: ' + level, canvas.width - 150, 60);
+    
     drawPlayerLives();
-    }
+}
     // Draw buttons and text
     function drawButtons() {
         ctx.fillStyle = buttonColor;

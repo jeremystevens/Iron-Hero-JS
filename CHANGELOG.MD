@@ -1,5 +1,9 @@
 # DEV CHANGELOG
 
+## Dev Notes: Rev 0.2.1
+
+- Modified the layout to display the Level first and the Score to the right of it.
+
 
 ## Dev Notes: Rev 0.2
 
