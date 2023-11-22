@@ -7,9 +7,39 @@ window.onload = function() {
     titleMusic.loop = true;
 
     // Game music
-    let gameMusic = new Audio('audio/game.wav');
+    let gameMusic = new Audio('audio/game.mp3');
     gameMusic.loop = true;
 
+    // Variables to track score and level
+    let score = 0;
+    let level = 1;
+
+  // Variable to track player lives
+let lives = 3; // Start with 3 lives
+ 
+// Set the size for the player lives indicator
+const playerLivesIndicatorSize = 30; // Adjust the size for the player lives indicator
+const playerLivesSpriteSize = 20; // Adjust the size for individual player lives sprites
+
+// Function to draw player lives using the player sprite
+function drawPlayerLives() {
+    ctx.fillStyle = 'white';
+    ctx.font = '27px Arial';
+
+    // Display "Lives:" text
+    ctx.fillText('Lives: ', 10, 30);
+
+    // Fixed xOffset for each player sprite life
+    const xOffset = 90; 
+    const yoffset = 10;
+    // Draw scaled-down player sprites for each remaining life
+    for (let i = 0; i < lives; i++) {
+        // Calculate the position for each player sprite life
+        const xPos = xOffset + i * (playerLivesSpriteSize + 5);
+        // Draw the player sprite for lives with the adjusted size
+        ctx.drawImage(playerImage, xPos, 10, playerLivesSpriteSize, playerLivesSpriteSize);
+    }
+}
     // Player variables
     let playerImage = new Image();
     playerImage.src = 'images/player_sprite.png';
@@ -47,6 +77,14 @@ window.onload = function() {
     const buttonTextColor = '#FFFFFF';
     const font = '36px Arial';
 
+    // Function to draw score and level
+    function drawGameInfo() {
+    ctx.fillStyle = 'white';
+    ctx.font = '24px Arial';
+    ctx.fillText('Score: ' + score, canvas.width - 150, 30);
+    ctx.fillText('Level: ' + level, canvas.width - 150, 60);
+    drawPlayerLives();
+    }
     // Draw buttons and text
     function drawButtons() {
         ctx.fillStyle = buttonColor;
@@ -220,6 +258,9 @@ window.onload = function() {
         player.bullets = player.bullets.filter(function(bullet) {
             return bullet.x < canvas.width;
         });
+
+        // Draw game info (score and level)
+        drawGameInfo();
     }
 
     // Start the game loop here
