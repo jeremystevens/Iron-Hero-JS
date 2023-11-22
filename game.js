@@ -78,14 +78,7 @@ function drawPlayerLives() {
     const buttonTextColor = '#FFFFFF';
     const font = '36px Arial';
 
-    // Function to draw score and level
-    //function drawGameInfo() {
-    //ctx.fillStyle = 'white';
-   // ctx.font = '24px Arial';
-    //ctx.fillText('Score: ' + score, canvas.width - 150, 30);
-   // ctx.fillText('Level: ' + level, canvas.width - 150, 60);
-   // drawPlayerLives();
-   // }
+// Function to draw score and level
    function drawGameInfo() {
     ctx.fillStyle = 'white';
     ctx.font = '24px Arial';
