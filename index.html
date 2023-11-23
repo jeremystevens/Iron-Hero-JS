@@ -4,80 +4,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Space Game</title>
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            overflow: hidden; /* Disable scrolling */
-            background-color: black;
-        }
         canvas {
-            background-color: #000;
-            display: block;
-            margin: 0 auto;
-            max-width: 100%;
-            height: auto;
+            background-color: #000; /* Adjust background color if needed */
+            display: block; /* Prevents scrollbar */
+            margin: 0 auto; /* Center the canvas */
         }
-       .version-text {
-    	   position: absolute;
-   	   bottom: 10px; /* Position from the bottom */
-           right: 10px; /* Position from the right */
-           color: white;
-           padding: 10px;
-           font-size: 1vw; /* Adjust font size relative to the viewport width */
+        .version-text {
+    position: absolute;
+    top: 620px; /* Adjust the top position to place it just below the canvas */
+    right: 270px; /* Adjust the right position for the horizontal spacing */
+    color: white;
+    padding: 10px;
 }
-/* Media query for smaller screens */
-@media (max-width: 600px) {
-    .version-text {
-        font-size: 3vw; /* Larger font size for better readability on small screens */
-        bottom: 5px; /* Adjust position for smaller screens */
-        right: 5px;
-    }
-}
-        #settingsModal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
-        }
     </style>
 </head>
-<body>
-    <script>
-        function resizeCanvas() {
-            var canvas = document.getElementById('gameCanvas');
-            var ratio = 800 / 600; // width/height
-            var canvasHeight = window.innerHeight;
-            var canvasWidth = canvasHeight * ratio;
-
-            if (canvasWidth > window.innerWidth) {
-                canvasWidth = window.innerWidth;
-                canvasHeight = canvasWidth / ratio;
-            }
-
-            canvas.width = canvasWidth;
-            canvas.height = canvasHeight;
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-        window.addEventListener('load', resizeCanvas);
-    </script>
-    <canvas id="gameCanvas" style="border: 2px solid #111112;"></canvas>
+<body bgcolor="black">
+    <canvas id="gameCanvas" width="800" height="600" style="border: 2px double #111112;"></canvas>
     <div class="version-text">Version: <span id="version">1.0.0</span></div>
     <script src="game.js"></script>
-    <div id="settingsModal">
-        <div style="text-align: right;">
-            <button onclick="hideSettings()">X</button>
-        </div>
-        <h2>Game Settings</h2>
-        <label for="difficultySlider">Difficulty:</label>
-        <input type="range" id="difficultySlider" min="1" max="3" step="1">
-        <p id="difficultyText">Intermediate</p>
-        <button onclick="saveSettings()">Save Settings</button>
+    <div id="settingsModal" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0,0,0,0.5);">
+    <div style="text-align: right;">
+        <button onclick="hideSettings()">X</button>
     </div>
+    <h2>Game Settings</h2>
+    <label for="difficultySlider">Difficulty:</label>
+    <input type="range" id="difficultySlider" min="1" max="3" step="1">
+    <p id="difficultyText">Intermediate</p>
+    <button onclick="saveSettings()">Save Settings</button>
+</div>
 </body>
 </html>
+ 

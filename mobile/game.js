@@ -319,7 +319,7 @@ window.onload = function() {
     bgImage.src = "images/background.png";
     let x1 = 0;
     let x2 = canvas.width;
-    let speed = 14;
+    let speed = 17;
 
     // Game loop
     function gameLoop() {
