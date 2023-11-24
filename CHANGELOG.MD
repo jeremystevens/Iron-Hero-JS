@@ -1,5 +1,11 @@
 # DEV CHANGELOG
 
+
+## Dev Notes: Rev 0.2.3
+
+- Added Player Class Moved all player attributes to Player Class. 
+- Organized code to be more readable
+
 ## Dev Notes: Rev 0.2.2
 
 - Added border around the game canvas to indicate the boundaries of the game window.

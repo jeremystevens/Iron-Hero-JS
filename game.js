@@ -1,11 +1,11 @@
 window.onload = function() {
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
-    
-// display the version number on the title screen
-const versionNumber = "0.2.2";
-// Update the version text
-document.getElementById('version').textContent = versionNumber;
+
+    // Display the version number on the title screen
+    const versionNumber = "0.2.3";
+    // Update the version text
+    document.getElementById('version').textContent = versionNumber;
 
     // Title music
     let titleMusic = new Audio('audio/menu.wav');
@@ -19,32 +19,33 @@ document.getElementById('version').textContent = versionNumber;
     let score = 0;
     let level = 1;
 
-  // Variable to track player lives
-let lives = 3; // Start with 3 lives
- 
-// Set the size for the player lives indicator
-const playerLivesIndicatorSize = 30; // Adjust the size for the player lives indicator
-const playerLivesSpriteSize = 20; // Adjust the size for individual player lives sprites
+    // Variable to track player lives
+    let lives = 3; // Start with 3 lives
 
-// Function to draw player lives using the player sprite
-function drawPlayerLives() {
-    ctx.fillStyle = 'white';
-    ctx.font = '27px Arial';
+    // Set the size for the player lives indicator
+    const playerLivesIndicatorSize = 30;
+    const playerLivesSpriteSize = 20;
 
-    // Display "Lives:" text
-    ctx.fillText('Lives: ', 10, 30);
+    // Function to draw player lives using the player sprite
+    function drawPlayerLives() {
+        ctx.fillStyle = 'white';
+        ctx.font = '27px Arial';
 
-    // Fixed xOffset for each player sprite life
-    const xOffset = 90; 
-    const yoffset = 10;
-    // Draw scaled-down player sprites for each remaining life
-    for (let i = 0; i < lives; i++) {
-        // Calculate the position for each player sprite life
-        const xPos = xOffset + i * (playerLivesSpriteSize + 5);
-        // Draw the player sprite for lives with the adjusted size
-        ctx.drawImage(playerImage, xPos, 10, playerLivesSpriteSize, playerLivesSpriteSize);
+        // Display "Lives:" text
+        ctx.fillText('Lives: ', 10, 30);
+
+        // Fixed xOffset for each player sprite life
+        const xOffset = 90;
+        const yoffset = 10;
+        // Draw scaled-down player sprites for each remaining life
+        for (let i = 0; i < lives; i++) {
+            // Calculate the position for each player sprite life
+            const xPos = xOffset + i * (playerLivesSpriteSize + 5);
+            // Draw the player sprite for lives with the adjusted size
+            ctx.drawImage(playerImage, xPos, 10, playerLivesSpriteSize, playerLivesSpriteSize);
+        }
     }
-}
+
     // Player variables
     let playerImage = new Image();
     playerImage.src = 'images/player_sprite.png';
@@ -52,21 +53,64 @@ function drawPlayerLives() {
     let bulletImage = new Image();
     bulletImage.src = 'images/bullet_sprite.png';
 
-    //let bulletSound = new Audio('audio/bullet.ogg');
+    // define bullet sound and position
     let bulletSound = new Audio('audio/blaster.mp3');
-    let bulletAdjustX = 10; // Adjust the x position
-    let bulletAdjustY = 19; // and the y position
+    let bulletAdjustX = 10;
+    let bulletAdjustY = 19;
 
     // Set up player object
-    let player = {
-        x: canvas.width / 2,
-        y: canvas.height - 100,
-        vx: 0,
-        vy: 0,
-        width: 50,
-        height: 50,
-        bullets: []
-    };
+    class Player {
+        constructor(x, y, width, height) {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            this.vx = 0;
+            this.vy = 0;
+            this.bullets = [];
+            this.image = playerImage;
+        }
+
+        moveLeft() {
+            this.vx = -5;
+        }
+
+        moveUp() {
+            this.vy = -5;
+        }
+
+        moveRight() {
+            this.vx = 5;
+        }
+
+        moveDown() {
+            this.vy = 5;
+        }
+
+        stopMoving() {
+            this.vx = 0;
+            this.vy = 0;
+        }
+
+        shootBullet() {
+            this.bullets.push({
+                x: this.x + this.width / 2 - 5 + bulletAdjustX,
+                y: this.y + bulletAdjustY,
+                width: 10,
+                height: 10,
+            });
+            bulletSound.play();
+        }
+
+        updateBullets() {
+            for (let i = 0; i < this.bullets.length; i++) {
+                let bullet = this.bullets[i];
+                bullet.x += 10; // Replace with bullet's speed
+            }
+        }
+    }
+
+    let player = new Player(canvas.width / 2, canvas.height - 100, 50, 50);
 
     // Title screen image
     let titleScreen = new Image();
@@ -83,19 +127,20 @@ function drawPlayerLives() {
     const buttonTextColor = '#FFFFFF';
     const font = '36px Arial';
 
-// Function to draw score and level
-   function drawGameInfo() {
-    ctx.fillStyle = 'white';
-    ctx.font = '24px Arial';
-    
-    // Display "Level:" text
-    ctx.fillText('Level: ' + level, canvas.width - 250, 30);
-    
-    // Display "Score:" text
-    ctx.fillText('Score: ' + score, canvas.width - 150, 30);
-    
-    drawPlayerLives();
-}
+    // Function to draw score and level
+    function drawGameInfo() {
+        ctx.fillStyle = 'white';
+        ctx.font = '24px Arial';
+
+        // Display "Level:" text
+        ctx.fillText('Level: ' + level, canvas.width - 250, 30);
+
+        // Display "Score:" text
+        ctx.fillText('Score: ' + score, canvas.width - 150, 30);
+
+        drawPlayerLives();
+    }
+
     // Draw buttons and text
     function drawButtons() {
         ctx.fillStyle = buttonColor;
@@ -160,7 +205,7 @@ function drawPlayerLives() {
             y > playButtonRect.y &&
             y < playButtonRect.y + playButtonRect.height
         ) {
-            titleMusic.pause(); //  Pause title music
+            titleMusic.pause(); // Pause title music
             startCountdown();
         }
 
@@ -251,7 +296,7 @@ function drawPlayerLives() {
         if (player.y + player.height > canvas.height) player.y = canvas.height - player.height;
 
         // Draw the player
-        ctx.drawImage(playerImage, player.x, player.y, player.width, player.height);
+        ctx.drawImage(player.image, player.x, player.y, player.width, player.height);
 
         // Draw the bullets
         for (let i = 0; i < player.bullets.length; i++) {
@@ -260,10 +305,7 @@ function drawPlayerLives() {
         }
 
         // Update bullet positions
-        for (let i = 0; i < player.bullets.length; i++) {
-            let bullet = player.bullets[i];
-            bullet.x += 10; // Replace with bullet's speed
-        }
+        player.updateBullets();
 
         // Remove bullets that are off the screen
         player.bullets = player.bullets.filter(function(bullet) {
@@ -272,59 +314,52 @@ function drawPlayerLives() {
 
         // Draw game info (score and level)
         drawGameInfo();
+
+        // Request next frame
+        requestAnimationFrame(gameLoop);
     }
 
     // Start the game loop here
     function startGame() {
         // Start game loop
-        setInterval(gameLoop, 1000 / 60); // 60 FPS
+        requestAnimationFrame(gameLoop);
+    }
+
+    // Update player movement
+    function updatePlayerMovement() {
+        // Initialize velocity
+        player.vx = 0;
+        player.vy = 0;
+    
+        if (keys[37]) { // Left arrow
+            player.vx = -5;
+        }
+        if (keys[38]) { // Up arrow
+            player.vy = -5;
+        }
+        if (keys[39]) { // Right arrow
+            player.vx = 5;
+        }
+        if (keys[40]) { // Down arrow
+            player.vy = 5;
+        }
     }
 
     // Handle keyboard input
     let keys = {};
 
-    window.addEventListener('keydown', function(event) {
-        keys[event.keyCode] = true;
+window.addEventListener('keydown', function(event) {
+    keys[event.keyCode] = true;
+    if (event.keyCode === 32) { // Spacebar
+        player.shootBullet();
+    }
+    updatePlayerMovement();
+});
 
-        switch(event.keyCode) {
-            case 37: // Left arrow
-                player.vx = -5;
-                break;
-            case 38: // Up arrow
-                player.vy = -5;
-                break;
-            case 39: // Right arrow
-                player.vx = 5;
-                break;
-            case 40: // Down arrow
-                player.vy = 5;
-                break;
-            case 32: // Spacebar
-                player.bullets.push({
-                    x: player.x + player.width / 2 - 5 + bulletAdjustX,
-                    y: player.y + bulletAdjustY,
-                    width: 10,
-                    height: 10
-                });
-                bulletSound.play();
-                break;
-        }
-    });
-
-    window.addEventListener('keyup', function(event) {
-        keys[event.keyCode] = false;
-
-        switch(event.keyCode) {
-            case 37: // Left arrow
-            case 39: // Right arrow
-                player.vx = 0;
-                break;
-            case 38: // Up arrow
-            case 40: // Down arrow
-                player.vy = 0;
-                break;
-        }
-    });
+window.addEventListener('keyup', function(event) {
+    keys[event.keyCode] = false;
+    updatePlayerMovement();
+});
 
     // Create an Audio object
     let menuMusic = new Audio('audio/menu.wav');
